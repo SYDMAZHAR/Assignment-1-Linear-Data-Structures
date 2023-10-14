@@ -1,0 +1,178 @@
+#1.Delete the elements in a linked list whose sum is equal to zero:
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def delete_zero_sum(head):
+    prefix_sum = 0
+    prefix_sum_dict = {}
+    current = head
+
+    while current is not None:
+        prefix_sum += current.data
+
+        if prefix_sum == 0:
+            head = current.next
+            prefix_sum_dict.clear()
+        else:
+            if prefix_sum in prefix_sum_dict:
+                prefix_sum_dict[prefix_sum].next = current.next
+            else:
+                prefix_sum_dict[prefix_sum] = current
+
+        current = current.next
+
+    return head
+
+
+#2.Reverse a linked list in groups of a given size:
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def reverse_in_groups(head, k):
+    prev = None
+    current = head
+    count = 0
+
+    while current is not None and count < k:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+        count += 1
+
+    if current is not None:
+        head.next = reverse_in_groups(current, k)
+
+    return prev
+
+#3.Merge a linked list into another linked list at alternate positions:
+
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def merge_alternate(head1, head2):
+    current1 = head1
+    current2 = head2
+
+    while current1 is not None and current2 is not None:
+        temp1 = current1.next
+        temp2 = current2.next
+
+        current1.next = current2
+        current2.next = temp1
+
+        current1 = temp1
+        current2 = temp2
+
+    return head1
+
+#4.In an array, count pairs with a given sum:
+
+def count_pairs_with_sum(arr, target_sum):
+    count = 0
+    seen = set()
+
+    for num in arr:
+        complement = target_sum - num
+        if complement in seen:
+            count += 1
+        seen.add(num)
+
+    return count
+
+#5.Find duplicates in an array:
+
+def find_duplicates(arr):
+    duplicates = []
+    seen = set()
+
+    for num in arr:
+        if num in seen:
+            duplicates.append(num)
+        else:
+            seen.add(num)
+
+    return duplicates
+
+#6.Find the Kth largest and Kth smallest number in an array:
+
+def kth_largest_smallest(arr, k):
+    arr.sort()
+    kth_largest = arr[-k]
+    kth_smallest = arr[k - 1]
+    return kth_largest, kth_smallest
+
+#7.Move all the negative elements to one side of the array:
+
+def move_negatives_to_one_side(arr):
+    neg_idx = 0
+
+    for i in range(len(arr)):
+        if arr[i] < 0:
+            arr[i], arr[neg_idx] = arr[neg_idx], arr[i]
+            neg_idx += 1
+
+
+#8.Reverse a string using a stack data structure:
+
+def reverse_string(string):
+    stack = []
+    for char in string:
+        stack.append(char)
+
+    reversed_string = ''
+    while stack:
+        reversed_string += stack.pop()
+
+    return reversed_string
+
+#9.Evaluate a postfix expression using a stack:
+
+def evaluate_postfix(expression):
+    stack = []
+    operators = set(['+', '-', '*', '/'])
+
+    for char in expression:
+        if char not in operators:
+            stack.append(int(char))
+        else:
+            operand2 = stack.pop()
+            operand1 = stack.pop()
+
+            if char == '+':
+                stack.append(operand1 + operand2)
+            elif char == '-':
+                stack.append(operand1 - operand2)
+            elif char == '*':
+                stack.append(operand1 * operand2)
+            elif char == '/':
+                stack.append(operand1 / operand2)
+
+    return stack.pop()
+
+#10.Implement a queue using the stack data structure:
+
+class QueueUsingStacks:
+    def __init__(self):
+        self.stack1 = []
+        self.stack2 = []
+
+    def enqueue(self, item):
+        self.stack1.append(item)
+
+    def dequeue(self):
+        if not self.stack2:
+            if not self.stack1:
+                return None
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
